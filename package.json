@@ -11,8 +11,7 @@
     "test": "node ./test/test.suite.js"
   },
   "dependencies": {
-  },
-  "devDependencies": {
+    "node-fetch": "^2.7.0"
   },
   "keywords": [
     "Telesign",
