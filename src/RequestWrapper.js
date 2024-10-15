@@ -18,6 +18,7 @@ const handleError = (error, callback) => {
 };
 
 function fetchWithTimeout(url, options) {
+  const fetch = require('node-fetch');
   return Promise.race([
     fetch(url, options),
     new Promise((_, reject) => setTimeout(() => reject({ code: 408, message: 'Timeout' }), options.timeout))
