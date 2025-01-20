@@ -1,7 +1,6 @@
-const crypto = require("crypto");
-const fs = require('fs');
-const path = require('path');
-const Constants = require('./Constants.js');
+import crypto from 'crypto';
+import { AuthMethodNames } from './Constants.mjs';
+import packageData from '../package.json' assert { type: 'json' };
 
 /***
  * The TeleSign RestClient is a generic HTTP REST client that can be extended to make
@@ -9,7 +8,7 @@ const Constants = require('./Constants.js');
  *
  * See https://developer.telesign.com for detailed API documentation.
  */
-class RestClient {
+export default class RestClient {
 
     constructor(requestWrapper,
                 customerId,
@@ -25,22 +24,13 @@ class RestClient {
         this.timeout = timeout;
         this.contentType = contentType ;
 
-        try {
-            if (userAgent === null) {
-                const packageJsonPath = path.join(__dirname, '..', 'package.json')
-                const packageJson = fs.readFileSync(packageJsonPath, 'utf8');
-                const packageData = JSON.parse(packageJson);
-                const version = packageData.version;
-                this.userAgent = `TeleSignSDK/ECMAScript-Node v ${version}`
-                    + ` ${process.arch}`
-                    + `/${process.platform}`
-                    + ` ${process.release.name}`
-                    + `/${process.version}`; // Generates a Node useragent - helpful in diagnosing errors
-            }
-        }
-        catch (err) {
-            this.userAgent = "TeleSignSDK/ECMAScript-Node v-UNKNOWN";
-            console.error("WARNING: Trouble determining OS Specific information for user agent");
+        if (userAgent === null) {
+            const version = packageData.version;
+            this.userAgent = `TeleSignSDK/ECMAScript-Node v ${version}`
+                + ` ${process.arch}`
+                + `/${process.platform}`
+                + ` ${process.release.name}`
+                + `/${process.version}`; // Generates a Node useragent - helpful in diagnosing errors
         }
 
     }
@@ -89,7 +79,7 @@ class RestClient {
 
         var contentType = (methodName == "POST" || methodName == "PUT") ?
             contentType : "";
-        var authMethod = authMethod!=null ? authMethod: Constants.AuthMethodNames.HMAC_SHA256;
+        var authMethod = authMethod!=null ? authMethod: AuthMethodNames.HMAC_SHA256;
 
         var urlencoded = "";
         if (encodedFields != null && encodedFields.length > 0) {
@@ -102,7 +92,7 @@ class RestClient {
             "\n" + "x-ts-nonce:" + nonce +
             urlencoded +
             "\n" + resource;
-        if(authMethod === Constants.AuthMethodNames.BASIC){
+        if(authMethod === AuthMethodNames.BASIC){
             var authorization = "Basic " + Buffer.from(customerId + ":" + apiKey).toString('base64');
         }else{
             var signedStrUTF8 = stringToSignBuilder.toString('utf8');
@@ -206,5 +196,3 @@ class RestClient {
 
     }
 }
-
-module.exports = RestClient;
