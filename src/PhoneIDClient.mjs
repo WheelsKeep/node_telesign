@@ -1,10 +1,10 @@
-const RestClient = require("./RestClient.js");
+import RestClient from './RestClient.mjs';
 
 /***
  * A set of APIs that deliver deep phone number data attributes that help optimize the end user
  * verification process and evaluate risk.
  */
-class PhoneIDClient extends RestClient {
+export default class PhoneIDClient extends RestClient {
 
     constructor(requestWrapper,
                 customerId,
@@ -34,5 +34,3 @@ class PhoneIDClient extends RestClient {
         this.execute(callback, "POST", this.phoneid_resource + encodeURI(phoneNumber), params);
     }
 }
-
-module.exports = PhoneIDClient;

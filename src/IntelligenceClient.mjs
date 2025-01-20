@@ -1,5 +1,5 @@
-const RestClient = require('./RestClient.js');
-const Constants = require('./Constants.js');
+import RestClient from './RestClient.mjs';
+import { AuthMethodNames } from './Constants.mjs';
 
 const INTELLIGENCE_ENDPOINT_PATH = "/intelligence";
 const contentType = "application/json";
@@ -10,7 +10,7 @@ const contentType = "application/json";
  * Telesign Intelligence makes it easy to understand the risk and the reason behind it with tailored scoring models
  *and comprehensive reason codes.
  */
-class IntelligenceClient extends RestClient {
+export default class IntelligenceClient extends RestClient {
     constructor(requestWrapper,
                 customerId,
                 apiKey,
@@ -39,9 +39,6 @@ class IntelligenceClient extends RestClient {
      * @param requestBody: requestBody to be passed to Intelligence API
      */
     intelligence(callback, requestBody) {
-        this.execute(callback, "POST", this.intelligenceResource, requestBody,
-            Constants.AuthMethodNames.BASIC);
+        this.execute(callback, "POST", this.intelligenceResource, requestBody, AuthMethodNames.BASIC);
     }
 }
-
-module.exports = IntelligenceClient;

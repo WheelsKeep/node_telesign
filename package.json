@@ -1,14 +1,24 @@
 {
   "name": "telesignsdk",
-  "version": "3.0.3",
+  "version": "4.0.0",
   "description": "Official TeleSign SDK for Rest APIs including Messaging (SMS), Score, PhoneID, Voice, and AppVerify",
   "repository": {
     "type": "git",
     "url": "https://github.com/TeleSign/node_telesign"
   },
-  "main": "src/TeleSign.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
   "scripts": {
-    "test": "node ./test/test.suite.js"
+    "test": "node test/test.suite.mjs",
+    "build:cjs": "babel src --out-dir dist/cjs --extensions \".js,.mjs\" --config-file ./babel.config.cjs.json ",
+    "build:esm": "babel src --out-dir dist/esm --extensions \".js,.mjs\" --config-file ./babel.config.esm.json",
+    "build": "rm -rf dist && npm run build:cjs && npm run build:esm"
   },
   "dependencies": {
     "node-fetch": "^3.3.2"
@@ -31,5 +41,13 @@
   ],
   "author": "TeleSign Corp.",
   "email": "sdk@telesign.com",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-syntax-import-assertions": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "babel-plugin-replace-import-extension": "^1.1.4"
+  }
 }
