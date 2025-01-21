@@ -88,6 +88,7 @@ export default class RestClient {
         if (encodedFields != null && encodedFields.length > 0) {
             urlencoded = "\n" + encodedFields;
         }
+        /** @type {any} */
         var stringToSignBuilder = methodName +
             "\n" + contentType +
             "\n" + date +
@@ -101,10 +102,12 @@ export default class RestClient {
             var signedStrUTF8 = stringToSignBuilder.toString('utf8');
             var decodedAPIKey = Buffer.from(apiKey, 'base64');
 
+            /** @type {any} */
             var jsSignature = crypto.createHmac("sha256", decodedAPIKey)
                 .update(signedStrUTF8)
                 .digest("base64")
-                .toString('utf8');
+            ;
+            jsSignature = jsSignature.toString('utf8');
             // console.log("js Signature: " + jsSignature);
 
             var authorization = "TSA " + customerId + ":" + jsSignature;

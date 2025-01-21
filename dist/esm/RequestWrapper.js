@@ -42,6 +42,7 @@ function fetchWithTimeout(_x, _x2) {
 }
 function _fetchWithTimeout() {
   _fetchWithTimeout = _asyncToGenerator(function* (url, options) {
+    /** @type {any} */
     var fetch = (typeof window !== 'undefined' ? window : global).fetch || null;
     if (!fetch) {
       fetch = (yield import(__transformExtension('node-fetch', {
