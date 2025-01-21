@@ -148,13 +148,17 @@ var RestClient = exports["default"] = /*#__PURE__*/function () {
         if (encodedFields != null && encodedFields.length > 0) {
           urlencoded = "\n" + encodedFields;
         }
+        /** @type {any} */
         var stringToSignBuilder = methodName + "\n" + contentType + "\n" + date + "\n" + "x-ts-auth-method:" + authMethod + "\n" + "x-ts-nonce:" + nonce + urlencoded + "\n" + resource;
         if (authMethod === _Constants.AuthMethodNames.BASIC) {
           var authorization = "Basic " + Buffer.from(customerId + ":" + apiKey).toString('base64');
         } else {
           var signedStrUTF8 = stringToSignBuilder.toString('utf8');
           var decodedAPIKey = Buffer.from(apiKey, 'base64');
-          var jsSignature = _crypto["default"].createHmac("sha256", decodedAPIKey).update(signedStrUTF8).digest("base64").toString('utf8');
+
+          /** @type {any} */
+          var jsSignature = _crypto["default"].createHmac("sha256", decodedAPIKey).update(signedStrUTF8).digest("base64");
+          jsSignature = jsSignature.toString('utf8');
           // console.log("js Signature: " + jsSignature);
 
           var authorization = "TSA " + customerId + ":" + jsSignature;
