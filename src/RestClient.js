@@ -205,6 +205,14 @@ class RestClient {
         });
 
     }
+
+    setRestEndpoint(restEndpoint) {
+        this.restEndpoint = restEndpoint
+    }
+
+    setContentType(contentType) {
+        this.contentType = contentType
+    }
 }
 
 module.exports = RestClient;
