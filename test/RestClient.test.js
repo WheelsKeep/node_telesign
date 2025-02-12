@@ -57,6 +57,28 @@ async function restClient() {
     expect(telesign.userAgent).toContain('TeleSignSDK/ECMAScript-Node v');
   });
 
+  it('should change the attribute restEndpoint', () => {
+    const telesign = new RestClient(requestWrapper, customerId, apiKey);
+    
+    expect(telesign.restEndpoint).toEqual("https://rest-api.telesign.com");
+
+    const newRestEndpoint = "https://telesign.com";
+    telesign.setRestEndpoint(newRestEndpoint);
+
+    expect(telesign.restEndpoint).toEqual(newRestEndpoint);
+  });
+
+  it('should change the attribute contentType', () => {
+    const telesign = new RestClient(requestWrapper, customerId, apiKey);
+
+    expect(telesign.contentType).toEqual("application/x-www-form-urlencoded");
+
+    const newContentType = "application/json";
+    telesign.setContentType(newContentType)
+
+    expect(telesign.contentType).toEqual(newContentType);
+  });
+
   it('should set customerId, apiKey correctly', () => {
     const rc = new RestClient(requestWrapper, customerId, apiKey);
 
