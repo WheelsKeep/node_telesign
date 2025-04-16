@@ -45,9 +45,12 @@ function _fetchWithTimeout() {
     /** @type {any} */
     var fetch = (typeof window !== 'undefined' ? window : global).fetch || null;
     if (!fetch) {
-      fetch = (yield import(__transformExtension('node-fetch', {
+      fetch = yield import(__transformExtension('node-fetch', {
         ".mjs": ""
-      }))).default;
+      })).then(m => {
+        var _m$default;
+        return (_m$default = m.default) !== null && _m$default !== void 0 ? _m$default : m;
+      });
     }
     return yield Promise.race([fetch(url, options), new Promise((_, reject) => setTimeout(() => reject({
       code: 408,

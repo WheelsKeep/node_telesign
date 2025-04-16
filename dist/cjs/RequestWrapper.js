@@ -109,9 +109,12 @@ function _fetchWithTimeout() {
             });
           }(__transformExtension('node-fetch', {
             ".mjs": ""
-          }));
+          })).then(function (m) {
+            var _m$default;
+            return (_m$default = m["default"]) !== null && _m$default !== void 0 ? _m$default : m;
+          });
         case 4:
-          fetch = _context.sent["default"];
+          fetch = _context.sent;
         case 5:
           _context.next = 7;
           return Promise.race([fetch(url, options), new Promise(function (_, reject) {

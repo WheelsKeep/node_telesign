@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _crypto = _interopRequireDefault(require("crypto"));
 var _Constants = require("./Constants");
-var _package = _interopRequireDefault(require("../../package.json"));
+var _Util = require("./Util");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
@@ -25,7 +25,10 @@ var RestClient = exports["default"] = /*#__PURE__*/function () {
     var restEndpoint = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "https://rest-api.telesign.com";
     var timeout = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 15000;
     var userAgent = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
-    var contentType = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "application/x-www-form-urlencoded";
+    var source = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "node_telesign";
+    var sdkVersionOrigin = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : null;
+    var sdkVersionDependency = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : null;
+    var contentType = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : "application/x-www-form-urlencoded";
     _classCallCheck(this, RestClient);
     this.requestWrapper = requestWrapper;
     this.customerId = customerId;
@@ -33,10 +36,9 @@ var RestClient = exports["default"] = /*#__PURE__*/function () {
     this.restEndpoint = restEndpoint === null ? "https://rest-api.telesign.com" : restEndpoint;
     this.timeout = timeout;
     this.contentType = contentType;
-    if (userAgent === null) {
-      var version = _package["default"].version;
-      this.userAgent = "TeleSignSDK/ECMAScript-Node v ".concat(version) + " ".concat(process.arch) + "/".concat(process.platform) + " ".concat(process.release.name) + "/".concat(process.version); // Generates a Node useragent - helpful in diagnosing errors
-    }
+    var currentVersionSdk = sdkVersionOrigin || (0, _Util.getInstalledVersion)();
+    this.userAgent = "TeleSignSDK/ECMAScript-Node" + " ".concat(process.arch) + "/".concat(process.platform) + " ".concat(process.release.name) + "/".concat(process.version) // Generates a Node useragent - helpful in diagnosing errors
+    + " OriginatingSDK/".concat(source) + " SDKVersion/".concat(currentVersionSdk) + (source !== "node_telesign" ? " DependencySDKVersion/".concat(sdkVersionDependency) : "");
   }
 
   /***

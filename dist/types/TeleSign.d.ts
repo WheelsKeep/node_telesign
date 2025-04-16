@@ -1,5 +1,5 @@
 export default class TeleSign {
-    constructor(customerId: any, apiKey: any, restEndpoint?: string, timeout?: number, useragent?: any);
+    constructor(customerId: any, apiKey: any, restEndpoint?: string, timeout?: number, useragent?: any, source?: string, sdkVersionOrigin?: any, sdkVersionDependency?: any);
     rest: RestClient;
     sms: MessagingClient;
     voice: VoiceClient;

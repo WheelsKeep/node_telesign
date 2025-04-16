@@ -34,7 +34,7 @@ export default class RestClient {
         "x-ts-auth-method": any;
         "x-ts-nonce": any;
     };
-    constructor(requestWrapper: any, customerId: any, apiKey: any, restEndpoint?: string, timeout?: number, userAgent?: any, contentType?: string);
+    constructor(requestWrapper: any, customerId: any, apiKey: any, restEndpoint?: string, timeout?: number, userAgent?: any, source?: string, sdkVersionOrigin?: any, sdkVersionDependency?: any, contentType?: string);
     requestWrapper: any;
     customerId: any;
     apiKey: any;
