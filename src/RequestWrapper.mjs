@@ -21,7 +21,7 @@ async function fetchWithTimeout(url, options) {
   /** @type {any} */
   let fetch = (typeof window !== 'undefined' ? window : global).fetch || null;
   if (!fetch) {
-    fetch = (await import('node-fetch')).default;
+    fetch = await import('node-fetch').then(m => m.default ?? m);
   }
   return await Promise.race([
     fetch(url, options),

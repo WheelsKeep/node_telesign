@@ -23,8 +23,8 @@
     "build:fix-file": "mv -f dist/src dist/types && find dist/types -name \"*.d.mts\" -exec sh -c 'mv \"$0\" \"${0%.d.mts}.d.ts\"' {} \\; && find dist/types -name \"*.d.ts\" -exec sed -i 's/\\.mjs//g' {} \\;",
     "build": "rm -rf dist && npm run build:cjs && npm run build:esm && npm run build:types && npm run build:fix-file"
   },
-  "dependencies": {
-    "node-fetch": "^3.3.2"
+  "peerDependencies": {
+    "node-fetch": "^2.6.0 || ^3.0.0"
   },
   "keywords": [
     "Telesign",
