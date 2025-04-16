@@ -153,4 +153,18 @@ export default class RestClient {
       }
     });
   }
+
+  /**
+   * @param {string} restEndpoint
+   */
+  setRestEndpoint(restEndpoint) {
+    this.restEndpoint = restEndpoint;
+  }
+
+  /**
+   * @param {string} contentType
+   */
+  setContentType(contentType) {
+    this.contentType = contentType;
+  }
 }

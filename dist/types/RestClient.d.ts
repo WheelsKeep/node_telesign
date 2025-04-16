@@ -52,4 +52,12 @@ export default class RestClient {
      * @param params: Body params to perform the HTTP request with, as a dictionary.
      */
     execute(callback: any, methodName: any, resource: any, params?: any, authMethod?: any, nonce?: any, date?: any): void;
+    /**
+     * @param {string} restEndpoint
+     */
+    setRestEndpoint(restEndpoint: string): void;
+    /**
+     * @param {string} contentType
+     */
+    setContentType(contentType: string): void;
 }
