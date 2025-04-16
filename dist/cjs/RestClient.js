@@ -128,6 +128,24 @@ var RestClient = exports["default"] = /*#__PURE__*/function () {
         }
       });
     }
+
+    /**
+     * @param {string} restEndpoint
+     */
+  }, {
+    key: "setRestEndpoint",
+    value: function setRestEndpoint(restEndpoint) {
+      this.restEndpoint = restEndpoint;
+    }
+
+    /**
+     * @param {string} contentType
+     */
+  }, {
+    key: "setContentType",
+    value: function setContentType(contentType) {
+      this.contentType = contentType;
+    }
   }], [{
     key: "generateTeleSignHeaders",
     value: function generateTeleSignHeaders(customerId, apiKey, methodName, resource, contentType, encodedFields) {
