@@ -12,10 +12,13 @@ module.exports = class TeleSign {
                 apiKey,
                 restEndpoint = "https://rest-api.telesign.com",
                 timeout = 15000,
-                useragent = null) {
+                useragent = null,
+                source = "node_telesign",
+                sdkVersionOrigin = null,
+                sdkVersionDependency = null) {
 
         const requestWrapper = new FetchRequestWrapper();
-        this.rest = new RestClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent);
+        this.rest = new RestClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent, "application/x-www-form-urlencoded", source, sdkVersionOrigin, sdkVersionDependency);
         this.sms = new MessagingClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent);
         this.voice = new VoiceClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent);
         this.score = new ScoreClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent);

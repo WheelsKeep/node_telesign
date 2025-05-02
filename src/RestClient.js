@@ -1,7 +1,6 @@
 const crypto = require("crypto");
-const fs = require('fs');
-const path = require('path');
 const Constants = require('./Constants.js');
+const { getInstalledVersion } = require('./Util.js');
 
 /***
  * The TeleSign RestClient is a generic HTTP REST client that can be extended to make
@@ -17,25 +16,31 @@ class RestClient {
                 restEndpoint = "https://rest-api.telesign.com",
                 timeout = 15000,
                 userAgent = null,
-                contentType = "application/x-www-form-urlencoded") {
+                contentType = "application/x-www-form-urlencoded",
+                source = "node_telesign",
+                sdkVersionOrigin = null,
+                sdkVersionDependency = null ) {
         this.requestWrapper = requestWrapper
         this.customerId = customerId;
         this.apiKey = apiKey;
         this.restEndpoint = (restEndpoint === null ? "https://rest-api.telesign.com" : restEndpoint);
         this.timeout = timeout;
         this.contentType = contentType ;
+        const currentVersionSdk = sdkVersionOrigin || getInstalledVersion()
 
         try {
             if (userAgent === null) {
-                const packageJsonPath = path.join(__dirname, '..', 'package.json')
-                const packageJson = fs.readFileSync(packageJsonPath, 'utf8');
-                const packageData = JSON.parse(packageJson);
-                const version = packageData.version;
-                this.userAgent = `TeleSignSDK/ECMAScript-Node v ${version}`
+                this.userAgent = `TeleSignSDK/ECMAScript-Node`
                     + ` ${process.arch}`
                     + `/${process.platform}`
                     + ` ${process.release.name}`
-                    + `/${process.version}`; // Generates a Node useragent - helpful in diagnosing errors
+                    + `/${process.version}` // Generates a Node useragent - helpful in diagnosing errors
+                    + ` OriginatingSDK/${source}`
+                    + ` SDKVersion/${currentVersionSdk}`;
+                
+                if (source !== "node_telesign") {
+                    this.userAgent = this.userAgent + ` DependencySDKVersion/${sdkVersionDependency}`;
+                }
             }
         }
         catch (err) {
