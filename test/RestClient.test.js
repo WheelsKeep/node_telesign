@@ -90,6 +90,7 @@ async function restClient() {
     const rc = new RestClient(requestWrapper, customerId, apiKey);
 
     expect(rc.userAgent).toContain('TeleSignSDK/ECMAScript-Node');
+    expect(rc.userAgent).toContain('OriginatingSDK/node_telesign');
   });
 
   it('should return default userAgent on error', () => {
@@ -376,12 +377,7 @@ async function restClient() {
     var optionsSent = null
     const requestWrapper = new FetchRequestWrapperMock(response, null, expectedResponse, (options) => optionsSent = options);
     
-    try {
-      const telesign = new RestClient(requestWrapper, 'customerId', 'apiKey');
-      
-    } catch (error) {
-      console.log('probando test', error);
-    }
+    const telesign = new RestClient(requestWrapper, 'customerId', 'apiKey');
     
     const resource = '/test';
     const params = { key1: 'value1', key2: 'value2' }
@@ -395,7 +391,10 @@ async function restClient() {
     expect(optionsSent.headers).toHaveProperty('Authorization', 'TSA customerId:y7PFf4BjQViy9TfeUTQutsQzKm/6T7NrklwOfaOTRKc=');
     expect(optionsSent.headers).toHaveProperty('Content-Type', '');
     expect(optionsSent.headers).toHaveProperty('Date', 'Wed, 14 Dec 2016 18:20:12 GMT');
-    expect(optionsSent.headers).toHaveProperty('User-Agent', function(value) {expect(value).toContain('TeleSignSDK/ECMAScript-Node')});
+    expect(optionsSent.headers).toHaveProperty('User-Agent', function(value) {
+      expect(value).toContain('TeleSignSDK/ECMAScript-Node')
+      expect(value).toContain('OriginatingSDK/node_telesign')
+    });
     expect(optionsSent.headers).toHaveProperty('x-ts-auth-method', 'HMAC-SHA256');
     expect(optionsSent.headers).toHaveProperty('x-ts-auth-method', 'HMAC-SHA256')
     expect(optionsSent.headers).toHaveProperty('x-ts-nonce', 'A1592C6F-E384-4CDB-BC42-C3AB970369E9')
@@ -490,7 +489,10 @@ async function restClient() {
     expect(optionsSent.headers).toHaveProperty('Authorization', 'TSA customerId:aQk5d8nanixOKIzrQfzIWjEqvVDxEuMOCoSoiH7Cnsc=');
     expect(optionsSent.headers).toHaveProperty('Content-Type', 'application/x-www-form-urlencoded');
     expect(optionsSent.headers).toHaveProperty('Date', 'Wed, 15 Dec 2016 18:20:12 GMT');
-    expect(optionsSent.headers).toHaveProperty('User-Agent', function(value) {expect(value).toContain('TeleSignSDK/ECMAScript-Node')});
+    expect(optionsSent.headers).toHaveProperty('User-Agent', function(value) {
+      expect(value).toContain('TeleSignSDK/ECMAScript-Node')
+      expect(value).toContain('OriginatingSDK/node_telesign')
+    });
     expect(optionsSent.headers).toHaveProperty('x-ts-auth-method', 'HMAC-SHA256')
     expect(optionsSent.headers).toHaveProperty('x-ts-nonce', 'FD7E3E50-6F1A-4BAF-9A5C-2F11B9A5B654')
     expect(optionsSent).toHaveProperty('method', 'POST');
@@ -524,7 +526,10 @@ async function restClient() {
     expect(optionsSent.headers).toHaveProperty('Authorization', 'TSA customerId:5/gV/TLGSxrKPCUsuAwBpu5ZFm/xNAQpPuMe+Jvtt1k=');
     expect(optionsSent.headers).toHaveProperty('Content-Type', 'application/x-www-form-urlencoded');
     expect(optionsSent.headers).toHaveProperty('Date', 'Wed, 15 Dec 2016 18:20:12 GMT');
-    expect(optionsSent.headers).toHaveProperty('User-Agent', function(value) {expect(value).toContain('TeleSignSDK/ECMAScript-Node')});
+    expect(optionsSent.headers).toHaveProperty('User-Agent', function(value) {
+      expect(value).toContain('TeleSignSDK/ECMAScript-Node')
+      expect(value).toContain('OriginatingSDK/node_telesign')
+    });
     expect(optionsSent.headers).toHaveProperty('x-ts-auth-method', 'HMAC-SHA256')
     expect(optionsSent.headers).toHaveProperty('x-ts-nonce', 'FD7E3E50-6F1A-4BAF-9A5C-2F11B9A5B654')
     expect(optionsSent).toHaveProperty('method', 'PUT');
@@ -621,6 +626,28 @@ async function restClient() {
     expect(telesign.phoneid.restEndpoint).toBe("https://rest-api.telesign.com");
     expect(telesign.phoneid.timeout).toBe(15000);
     expect(telesign.phoneid.userAgent).toContain('TeleSignSDK/ECMAScript-Node');
+    expect(telesign.phoneid.userAgent).toContain('OriginatingSDK/node_telesign');
+  });
+
+  test('Use Telesign from FS', async () => {
+    const telesign = new TeleSignSDK(
+      customerId,
+      apiKey,
+      restEndpoint,
+      15000,
+      null,
+      'node_telesign_enterprise',
+      '1.0.0',
+      '2.0.0'
+    );
+
+    expect(telesign.rest.restEndpoint).toBe("https://rest-api.telesign.com");
+    expect(telesign.rest.contentType).toBe("application/x-www-form-urlencoded");
+    expect(telesign.rest.timeout).toBe(15000);
+    expect(telesign.rest.userAgent).toContain('TeleSignSDK/ECMAScript-Node');
+    expect(telesign.rest.userAgent).toContain('OriginatingSDK/node_telesign_enterprise');
+    expect(telesign.rest.userAgent).toContain('SDKVersion/1.0.0');
+    expect(telesign.rest.userAgent).toContain('DependencySDKVersion/2.0.0');
   });
 
   // AppVerify test ------------------------

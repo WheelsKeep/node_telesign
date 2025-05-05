@@ -175,7 +175,6 @@ class RestClient {
             nonce,
             this.userAgent,
             authMethod);
-        console.log('testttt', this.userAgent);
         
         var requestParams = {
             headers: headers,
