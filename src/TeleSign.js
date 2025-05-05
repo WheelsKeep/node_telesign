@@ -18,7 +18,7 @@ module.exports = class TeleSign {
                 sdkVersionDependency = null) {
 
         const requestWrapper = new FetchRequestWrapper();
-        this.rest = new RestClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent, "application/x-www-form-urlencoded", source, sdkVersionOrigin, sdkVersionDependency);
+        this.rest = new RestClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent, source, sdkVersionOrigin, sdkVersionDependency);
         this.sms = new MessagingClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent);
         this.voice = new VoiceClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent);
         this.score = new ScoreClient(requestWrapper, customerId, apiKey, restEndpoint, timeout, useragent);

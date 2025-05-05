@@ -16,10 +16,10 @@ class RestClient {
                 restEndpoint = "https://rest-api.telesign.com",
                 timeout = 15000,
                 userAgent = null,
-                contentType = "application/x-www-form-urlencoded",
                 source = "node_telesign",
                 sdkVersionOrigin = null,
-                sdkVersionDependency = null ) {
+                sdkVersionDependency = null,
+                contentType = "application/x-www-form-urlencoded" ) {
         this.requestWrapper = requestWrapper
         this.customerId = customerId;
         this.apiKey = apiKey;
@@ -36,11 +36,8 @@ class RestClient {
                     + ` ${process.release.name}`
                     + `/${process.version}` // Generates a Node useragent - helpful in diagnosing errors
                     + ` OriginatingSDK/${source}`
-                    + ` SDKVersion/${currentVersionSdk}`;
-                
-                if (source !== "node_telesign") {
-                    this.userAgent = this.userAgent + ` DependencySDKVersion/${sdkVersionDependency}`;
-                }
+                    + ` SDKVersion/${currentVersionSdk}`
+                    + (source !== "node_telesign" ? ` DependencySDKVersion/${sdkVersionDependency}` : ``);
             }
         }
         catch (err) {
@@ -178,7 +175,8 @@ class RestClient {
             nonce,
             this.userAgent,
             authMethod);
-
+        console.log('testttt', this.userAgent);
+        
         var requestParams = {
             headers: headers,
             url: telesignURL,
